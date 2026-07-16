@@ -2,15 +2,13 @@ package modelo;
 
 import java.io.Serializable;
 
-/**
- * Representa una columna o atributo dentro de una tabla de base de datos relacional.
- */
+
 public class Columna implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String nombre;
-    private String tipoDato; // VARCHAR, INT, DATE, etc.
-    private int longitud;     // Para tipos como VARCHAR(50)
+    private String tipoDato; 
+    private int longitud;    
     private boolean esClavePrimaria;
     private boolean esClaveForanea;
     private boolean noNulo;
