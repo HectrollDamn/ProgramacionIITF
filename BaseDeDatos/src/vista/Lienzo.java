@@ -63,6 +63,26 @@ public class Lienzo extends JPanel{
                     }
                 }
             }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (tablaSeleccionada != null && SwingUtilities.isLeftMouseButton(e)) {
+                    int nuevoX = e.getX() - difX;
+                    int nuevoY = e.getY() - difY;
+                    tablaSeleccionada.setX(Math.max(0, nuevoX));
+                    tablaSeleccionada.setY(Math.max(0, nuevoY));
+                    repaint();
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (tablaSeleccionada != null) {
+                    tablaSeleccionada = null;
+                    setCursor(Cursor.getDefaultCursor());
+                }
+            }
+            
         };
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
