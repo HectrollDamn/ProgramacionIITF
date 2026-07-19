@@ -87,4 +87,61 @@ public class Lienzo extends JPanel{
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
     }
+    private void ejecutarAsistenteNuevaColumnaRapida(Tabla t) {
+        String nombreCol = JOptionPane.showInputDialog(null, "Nueva columna para '" + t.getNombre() + "':");
+        if (nombreCol != null && !nombreCol.trim().isEmpty()) {
+            String[] tipos = {"INT", "VARCHAR", "DATE", "DECIMAL", "BOOLEAN"};
+            String tipoCol = (String) JOptionPane.showInputDialog(null, "Tipo de dato:", "Tipo", JOptionPane.QUESTION_MESSAGE, null, tipos, tipos[0]);
+            if (tipoCol != null) {
+                int longitud = 0;
+                if (tipoCol.equals("VARCHAR")) {
+                    String lenStr = JOptionPane.showInputDialog(null, "Longitud:", "50");
+                    try { longitud = Integer.parseInt(lenStr); } catch(Exception ex) { longitud = 50; }
+                }
+                int esPK = JOptionPane.showConfirmDialog(null, "¿Es Clave Primaria (PK)?", "Propiedades", JOptionPane.YES_NO_OPTION);
+                t.agregarColumna(new Columna(nombreCol.trim(), tipoCol, longitud, (esPK == JOptionPane.YES_OPTION), false));
+                repaint();
+            }
+        }
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        
+        g2d.setColor(new Color(46, 204, 113));
+        g2d.setStroke(new java.awt.BasicStroke(2));
+        
+        for (Relacion rel : proyecto.getRelaciones()) {
+            int x1 = rel.getTablaOrigen().getX() + (ANCHO_TABLA / 2);
+            int y1 = rel.getTablaOrigen().getY() + (ALTO_TABLA / 2);
+            int x2 = rel.getTablaDestino().getX() + (ANCHO_TABLA / 2);
+            int y2 = rel.getTablaDestino().getY() + (ALTO_TABLA / 2);
+            
+            g2d.drawLine(x1, y1, x2, y2);
+            g2d.fillOval(x2 - 5, y2 - 5, 10, 10);
+            
+            g2d.setColor(new Color(44, 62, 80));
+            g2d.setFont(new Font("Arial", Font.BOLD, 14));
+            
+            double distanciaTotal = Math.hypot(x2 - x1, y2 - y1);
+            if (distanciaTotal > 0) {
+                double dx = (x2 - x1) / distanciaTotal;
+                double dy = (y2 - y1) / distanciaTotal;
+                int margenBorde = 95;
+                if (distanciaTotal < margenBorde * 2) margenBorde = (int) (distanciaTotal * 0.3);
+                
+                int xText1 = (int) (x1 + (dx * margenBorde));
+                int yText1 = (int) (y1 + (dy * margenBorde)) - 5;
+                int xText2 = (int) (x2 - (dx * margenBorde));
+                int yText2 = (int) (y2 - (dy * margenBorde)) - 5;
+                
+                g2d.drawString(rel.getCardinalidadOrigen(), xText1, yText1);
+                g2d.drawString(rel.getCardinalidadDestino(), xText2, yText2);
+            }
+            g2d.setColor(new Color(46, 204, 113));
+        }
+    }
 }
