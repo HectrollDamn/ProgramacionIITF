@@ -143,5 +143,42 @@ public class Lienzo extends JPanel{
             }
             g2d.setColor(new Color(46, 204, 113));
         }
+
+        for (Tabla tabla : proyecto.getTablas()) {
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(tabla.getX(), tabla.getY(), ANCHO_TABLA, ALTO_TABLA);
+            g2d.setColor(new Color(180, 180, 180));
+            g2d.drawRect(tabla.getX(), tabla.getY(), ANCHO_TABLA, ALTO_TABLA);
+            
+            g2d.setColor(new Color(41, 128, 185));
+            g2d.fillRect(tabla.getX(), tabla.getY(), ANCHO_TABLA, 25);
+            
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(new Font("Arial", Font.BOLD, 12));
+            g2d.drawString(tabla.getNombre(), tabla.getX() + 10, tabla.getY() + 18);
+            
+            g2d.setFont(new Font("Arial", Font.PLAIN, 11));
+            int despliegueY = tabla.getY() + 42;
+            
+            if (tabla.getColumnas() != null) {
+                for (Columna col : tabla.getColumnas()) {
+                    String prefijo = "      ";
+                    if (col.isEsClavePrimaria()) {
+                        g2d.setColor(new Color(230, 126, 34));
+                        prefijo = "PK  ";
+                    } else if (col.isEsClaveForanea()) {
+                        g2d.setColor(new Color(46, 204, 113));
+                        prefijo = "FK  ";
+                    } else {
+                        g2d.setColor(Color.DARK_GRAY);
+                    }
+                    g2d.drawString(prefijo + col.getNombre() + " : " + col.getTipoDato(), tabla.getX() + 8, despliegueY);
+                    despliegueY += 20;
+                }
+            }
+        }
+    }
+    public void setProyecto(Proyecto proyecto) { 
+        this.proyecto = proyecto; repaint(); 
     }
 }
