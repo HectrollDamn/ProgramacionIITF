@@ -8,10 +8,7 @@ import javax.swing.tree.*;
 import modelo.*;
 import controlador.*;
 
-/**
- * Ventana Principal del Diseñador.
- * Posee el JTree con menú contextual corregido y blindado ante bloqueos de foco.
- */
+
 public class VentanaPrincipal extends JFrame {
 
     private Proyecto proyectoActual;
