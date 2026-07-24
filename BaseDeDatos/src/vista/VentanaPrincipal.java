@@ -71,7 +71,7 @@ public class VentanaPrincipal extends JFrame {
         JButton btnGenerarSQL = new JButton("Generar SQL");
         
         // Elementos visuales del Contador y ProgressBar
-        lblContadorTiempo = new JLabel(" ⏱️ Sesion: 00:00 ");
+        lblContadorTiempo = new JLabel(" Sesion: 00:00 ");
         lblContadorTiempo.setFont(new Font("Arial", Font.BOLD, 12));
         lblContadorTiempo.setForeground(new Color(41, 128, 185));
 
